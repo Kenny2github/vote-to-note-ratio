@@ -1,0 +1,4 @@
+RewriteEngine On
+
+RewriteRule ^/?\.git - [F]
+RewriteRule ^/?client\.php - [F]
