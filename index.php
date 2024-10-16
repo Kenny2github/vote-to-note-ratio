@@ -2,9 +2,6 @@
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/client.php';
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
 ?><!doctype html>
 <html>
 	<head>
