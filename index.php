@@ -64,9 +64,13 @@ require_once __DIR__ . '/client.php';
 	$majority = false;
 	$closed = false;
 	$ongoing = false;
+	$binary = false;
 	$multiples = [50 => false, 20 => false, 10 => false, 5 => false, 2 => false];
 	$divisors = [1 => false, 2 => false, 5 => false, 10 => false, 20 => false, 50 => false];
 	foreach ($polls as $poll) {
+		if (count($poll->answers) == 2) {
+			$binary = true;
+		}
 		foreach ($poll->answers as $answer) {
 			if ($answer->votes >= $poll->vote_count * 2 / 3) {
 				$supermajority = true;
@@ -120,6 +124,7 @@ require_once __DIR__ . '/client.php';
 		'“other” plurality' => null,
 		'ongoing poll' => $ongoing,
 		'closed poll' => $closed,
+		'binary poll' => $binary,
 		'poll' => true,
 		'polls' => true,
 		'tumblr poll' => true,
