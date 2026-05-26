@@ -169,11 +169,13 @@ require_once __DIR__ . '/client.php';
 <form method="post">
 	<input type="hidden" name="id" value="<?=htmlspecialchars($_REQUEST['id'])?>" />
 	<input type="hidden" name="reblog_key" value="<?=htmlspecialchars($post->reblog_key)?>" />
-<?php foreach ($polls as $poll) {
-	$author = htmlspecialchars($poll->author);
-	?>
+<?php foreach ($polls as $poll) { ?>
 	<fieldset>
-		<legend><a target="_blank" rel="nofollow noreferrer" href="https://tumblr.com/<?=$author?>"><?=$author?></a>: <?=htmlspecialchars($poll->question)?></legend>
+		<legend>
+			<a target="_blank" rel="nofollow noreferrer"
+				href="https://tumblr.com/<?=htmlspecialchars(urlencode($poll->author))?>"><?=htmlspecialchars($poll->author)?></a>:
+			<?=htmlspecialchars($poll->question)?>
+		</legend>
 		<ul><?php foreach ($poll->answers as $answer) {
 			$style = [];
 			if ($answer->chosen) $style[] = 'text-decoration: underline';
