@@ -109,12 +109,29 @@ require_once __DIR__ . '/client.php';
 		$poll->statement = 'Vote to note ratio = '
 			. number_format($poll->vote_count)
 			. ':'
-			. number_format($post->note_count)
-			. ' ≈ ';
-		if ($poll->vote_count >= $post->note_count) {
-			$poll->statement .= number_format(ceil($poll->vote_count / $post->note_count * 100) / 100, 2) . 'x as many votes as notes';
+			. number_format($post->note_count);
+		if ($poll->note_count === 0) {
+			if ($poll->vote_count === 0) {
+				$poll->statement .= " = exactly as few votes as notes";
+			} else {
+				$poll->statement .= " = infinitely more votes than notes";
+			}
+		} else if ($poll->vote_count === 0) {
+			$poll->statement .= " = 0.00x as many votes as notes";
+		} else if ($poll->vote_count >= $post->note_count) {
+			$ratio = $poll->vote_count / $post->note_count;
+			if (ceil($ratio) === $ratio) {
+				$poll->statement .= " = " . number_format($ratio, 2) . 'x as many votes as notes';
+			} else {
+				$poll->statement .= ' ≈ ' . number_format(ceil($ratio * 100) / 100, 2) . 'x as many votes as notes';
+			}
 		} else {
-			$poll->statement .= number_format(ceil($post->note_count / $poll->vote_count * 100) / 100, 2) . 'x as many NOTES as VOTES';
+			$ratio = $post->note_count / $poll->vote_count;
+			if (ceil($ratio) === $ratio) {
+				$poll->statement .= " = " . number_format($ratio, 2) . 'x as many NOTES as VOTES';
+			} else {
+				$poll->statement .= ' ≈ ' . number_format(ceil($ratio * 100) / 100, 2) . 'x as many NOTES as VOTES';
+			}
 		}
 	}
 	$tags = [
