@@ -53,12 +53,24 @@ require_once __DIR__ . '/client.php';
 	foreach ($polls as $poll) {
 		$r = $tumblr->getRequest("v2/polls/$blog/{$_REQUEST['id']}/{$poll->client_id}/results", null, true);
 		$total = 0;
+		$max_votes = 0;
+		$winners = [];
 		foreach ($poll->answers as $answer) {
 			$answer->votes = $r->results->{$answer->client_id};
 			$answer->chosen = in_array($answer->client_id, $r->user_votes);
+			$answer->won = false;
 			$total += $answer->votes;
+			if ($answer->votes > $max_votes) {
+				$max_votes = $answer->votes;
+				$winners = [$answer];
+			} else if ($answer->votes == $max_votes) {
+				$winners[] = $answer;
+			}
 		}
 		$poll->vote_count = $total;
+		foreach ($winners as $winner) {
+			$winner->won = true;
+		}
 	}
 	$supermajority = false;
 	$majority = false;
@@ -139,8 +151,12 @@ require_once __DIR__ . '/client.php';
 <?php foreach ($polls as $poll) { ?>
 	<fieldset>
 		<legend><?=htmlspecialchars($poll->author)?>: <?=htmlspecialchars($poll->question)?></legend>
-		<ul><?php foreach ($poll->answers as $answer) { ?>
-			<li <?=$answer->chosen ? ' style="text-decoration: underline"' : ''?>>
+		<ul><?php foreach ($poll->answers as $answer) {
+			$style = [];
+			if ($answer->chosen) $style[] = 'text-decoration: underline';
+			if ($answer->won) $style[] = 'font-weight: bold';
+			$style = implode(';', $style);
+			?><li <?=$style ? " style=\"$style\"" : ''?>>
 				<?=htmlspecialchars($answer->answer_text)?> - <?=number_format($answer->votes * 100 / $poll->vote_count, 1)?>%
 			</li>
 		<?php } ?></ul>
