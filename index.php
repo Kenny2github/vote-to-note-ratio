@@ -188,14 +188,11 @@ require_once __DIR__ . '/client.php';
 	</fieldset>
 <?php } ?>
 	<style>
-		p:has(input:invalid) + p {
-			display: block;
-		}
-		p:nth-last-of-type(1) {
+		form > p:nth-last-of-type(1) {
 			display: none;
 		}
-		label:has(input:invalid) ~ button[type=submit] {
-			display: none;
+		p:last-child {
+			margin-bottom: 0;
 		}
 		label:nth-last-of-type(1) input[type=text] + a {
 			display: none;
@@ -215,6 +212,7 @@ require_once __DIR__ . '/client.php';
 			newLast.focus();
 		};
 		function detectComma(ev, el) {
+			el.value = el.value.trimLeft().replace(/"/g, '');
 			if (!ev.data.includes(',') || !ev.inputType.startsWith('insert')) return;
 			const text = el.value;
 			let [before, ...tags] = text.split(',');
