@@ -243,7 +243,6 @@ require_once __DIR__ . '/client.php';
 			# <input type="text" name="tags[]" pattern="[^,\x22]*" oninput="detectComma(event, this);" />
 			<a href="#" onclick="event.preventDefault(); this.parentElement.remove();">❎</a>
 		</label>
-		<button type="button" onclick="newTag();">Add tag</button>
 		<button type="submit">Queue</button>
 	</p>
 </form>

@@ -46,6 +46,6 @@ Screenshots (on mobile, as of [commit `e4c19b7`](https://github.com/Kenny2github
     - Check the '# "other" {supermajority,majority,plurality}' tags if the option receiving the respective portion of the vote is, in your judgement, an "other" option. The supermajority and majority tags will only be checkable if an option received that much of the vote.
     - Check the '# "{yes,no}" {supermajority,majority}' tags if the binary poll is, in your judgement, a "yes/no" poll and the respective option won. The supermajority tags will only be checkable if the option won by that much of the vote.
 7. Check the "# poll blog" tag if any of the polls come from a poll blog, in your judgement.
-8. Enter an arbitrary tag for the blog admin's response to the poll. Additional tags can be entered by clicking the "Add tag" button. Commas will also be split into separate tags.
+8. Enter an arbitrary tag for the blog admin's response to the poll. Commas will be split into separate tags. Only the last tag input is editable; use the ❎ button to remove preceding tags.
 9. Click "Queue".
 10. A success message is displayed which links to the newly queued post. Click "Home" to return to step 1.
