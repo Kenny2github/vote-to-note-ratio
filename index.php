@@ -125,6 +125,8 @@ require_once __DIR__ . '/client.php';
 		'ongoing poll' => $ongoing,
 		'closed poll' => $closed,
 		'binary poll' => $binary,
+		'“yes” majority' => $binary ? null : false,
+		'“no” majority' => $binary ? null : false,
 		'poll' => true,
 		'polls' => true,
 		'tumblr poll' => true,
