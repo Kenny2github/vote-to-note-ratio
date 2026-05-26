@@ -137,6 +137,8 @@ require_once __DIR__ . '/client.php';
 		'ongoing poll' => $ongoing,
 		'closed poll' => $closed,
 		'binary poll' => $binary,
+		'“yes” supermajority' => ($supermajority && $binary) ? null : false,
+		'“no” supermajority' => ($supermajority && $binary) ? null : false,
 		'“yes” majority' => $binary ? null : false,
 		'“no” majority' => $binary ? null : false,
 		'poll' => true,
