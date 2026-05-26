@@ -119,18 +119,18 @@ require_once __DIR__ . '/client.php';
 		} else if ($poll->vote_count === 0) {
 			$poll->statement .= " = 0.00x as many votes as notes";
 		} else if ($poll->vote_count >= $post->note_count) {
-			$ratio = $poll->vote_count / $post->note_count;
+			$ratio = $poll->vote_count / $post->note_count * 100;
 			if (ceil($ratio) === $ratio) {
-				$poll->statement .= " = " . number_format($ratio, 2) . 'x as many votes as notes';
+				$poll->statement .= " = " . number_format($ratio / 100, 2) . 'x as many votes as notes';
 			} else {
-				$poll->statement .= ' ≈ ' . number_format(ceil($ratio * 100) / 100, 2) . 'x as many votes as notes';
+				$poll->statement .= ' ≈ ' . number_format(ceil($ratio) / 100, 2) . 'x as many votes as notes';
 			}
 		} else {
-			$ratio = $post->note_count / $poll->vote_count;
+			$ratio = $post->note_count / $poll->vote_count * 100;
 			if (ceil($ratio) === $ratio) {
-				$poll->statement .= " = " . number_format($ratio, 2) . 'x as many NOTES as VOTES';
+				$poll->statement .= " = " . number_format($ratio / 100, 2) . 'x as many NOTES as VOTES';
 			} else {
-				$poll->statement .= ' ≈ ' . number_format(ceil($ratio * 100) / 100, 2) . 'x as many NOTES as VOTES';
+				$poll->statement .= ' ≈ ' . number_format(ceil($ratio) / 100, 2) . 'x as many NOTES as VOTES';
 			}
 		}
 	}
