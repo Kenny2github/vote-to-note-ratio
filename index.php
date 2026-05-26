@@ -150,9 +150,11 @@ require_once __DIR__ . '/client.php';
 ?>
 	<p><form method="get"><button type="submit">Home</button></form></p>
 <form method="post">
-<?php foreach ($polls as $poll) { ?>
+<?php foreach ($polls as $poll) {
+	$author = htmlspecialchars($poll->author);
+	?>
 	<fieldset>
-		<legend><?=htmlspecialchars($poll->author)?>: <?=htmlspecialchars($poll->question)?></legend>
+		<legend><a target="_blank" rel="nofollow noreferrer" href="https://tumblr.com/<?=$author?>"><?=$author?></a>: <?=htmlspecialchars($poll->question)?></legend>
 		<ul><?php foreach ($poll->answers as $answer) {
 			$style = [];
 			if ($answer->chosen) $style[] = 'text-decoration: underline';
