@@ -18,7 +18,7 @@ require_once __DIR__ . '/client.php';
 		<h1>Vote to Note Ratio Admin Panel</h1>
 <?php if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 	$r = $tumblr->reblogPost('vote-to-note-ratio', $_REQUEST['id'], $_REQUEST['reblog_key'], [
-		'tags' => implode(',', $_REQUEST['tags']) . "," . $_REQUEST['extratags'],
+		'tags' => implode(',', $_REQUEST['tags']),
 		'body' => '<p>' . implode('</p><p>', $_REQUEST['lines']) . '</p>',
 		'comment' => '<p>' . implode('</p><p>', $_REQUEST['lines']) . '</p>',
 		'state' => 'queue',
@@ -166,7 +166,33 @@ require_once __DIR__ . '/client.php';
 		<p><?=$poll->statement?></p>
 	</fieldset>
 <?php } ?>
-	<p>
+	<style>
+		p:has(input:invalid) + p {
+			display: block;
+		}
+		p:nth-last-of-type(1) {
+			display: none;
+		}
+		label:has(input:invalid) ~ button[type=submit] {
+			display: none;
+		}
+		label:nth-last-of-type(1) input[type=text] + a {
+			display: none;
+		}
+		a[href=#] {
+			text-decoration: none;
+		}
+	</style>
+	<script>
+		function newTag() {
+			const last = document.querySelector('label:has(input[type=text]):nth-last-of-type(1)');
+			const newLast = last.cloneNode(true);
+			newLast.children[0].value = '';
+			last.after(newLast);
+			newLast.focus();
+		};
+	</script>
+	<p style="display: flex; flex-wrap: wrap; column-gap: 4px">
 		<?php foreach ($tags as $tag => $yes) { ?>
 		<label>
 			<input type="checkbox" name="tags[]" value="<?=htmlspecialchars($tag)?>"<?=is_null($yes) ? '' : ' disabled'?><?=$yes ? ' checked' : ''?> />
@@ -176,9 +202,14 @@ require_once __DIR__ . '/client.php';
 		<input type="hidden" name="tags[]" value="<?=htmlspecialchars($tag)?>" />
 		<?php } ?>
 		<?php } ?>
-		<label># <input type="text" name="extratags" /></label>
+		<label>
+			# <input type="text" name="tags[]" pattern="[^,\x22]*"/>
+			<a href="#" onclick="event.preventDefault(); this.parentElement.remove();">❎</a>
+		</label>
+		<button type="button" onclick="newTag();">Add tag</button>
 		<button type="submit">Queue</button>
 	</p>
+	<p>Commas and quotes are invalid tag characters</p>
 	<input type="hidden" name="id" value="<?=htmlspecialchars($_REQUEST['id'])?>" />
 	<input type="hidden" name="reblog_key" value="<?=htmlspecialchars($post->reblog_key)?>" />
 </form>
