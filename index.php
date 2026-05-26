@@ -186,11 +186,27 @@ require_once __DIR__ . '/client.php';
 	<script>
 		function newTag() {
 			const last = document.querySelector('label:has(input[type=text]):nth-last-of-type(1)');
+			if (!last.children[0].value) return;
 			const newLast = last.cloneNode(true);
 			newLast.children[0].value = '';
 			last.after(newLast);
+			last.children[0].readOnly = true;
 			newLast.focus();
 		};
+		function detectComma(ev, el) {
+			if (!ev.data.includes(',') || !ev.inputType.startsWith('insert')) return;
+			const text = el.value;
+			let [before, ...tags] = text.split(',');
+			el.value = before;
+			for (let tag of tags) {
+				if (!tag) continue;
+				newTag();
+				document.querySelector('label:has(input[type=text]):nth-last-of-type(1) input').value = tag;
+			}
+			if (text.endsWith(',')) {
+				newTag(); // restore empty prompt
+			}
+		}
 	</script>
 	<p style="display: flex; flex-wrap: wrap; column-gap: 4px">
 		<?php foreach ($tags as $tag => $yes) { ?>
@@ -203,7 +219,7 @@ require_once __DIR__ . '/client.php';
 		<?php } ?>
 		<?php } ?>
 		<label>
-			# <input type="text" name="tags[]" pattern="[^,\x22]*"/>
+			# <input type="text" name="tags[]" pattern="[^,\x22]*" oninput="detectComma(event, this);" />
 			<a href="#" onclick="event.preventDefault(); this.parentElement.remove();">❎</a>
 		</label>
 		<button type="button" onclick="newTag();">Add tag</button>
