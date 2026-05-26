@@ -167,6 +167,8 @@ require_once __DIR__ . '/client.php';
 ?>
 	<p><form method="get"><button type="submit">Home</button></form></p>
 <form method="post">
+	<input type="hidden" name="id" value="<?=htmlspecialchars($_REQUEST['id'])?>" />
+	<input type="hidden" name="reblog_key" value="<?=htmlspecialchars($post->reblog_key)?>" />
 <?php foreach ($polls as $poll) {
 	$author = htmlspecialchars($poll->author);
 	?>
@@ -244,9 +246,6 @@ require_once __DIR__ . '/client.php';
 		<button type="button" onclick="newTag();">Add tag</button>
 		<button type="submit">Queue</button>
 	</p>
-	<p>Commas and quotes are invalid tag characters</p>
-	<input type="hidden" name="id" value="<?=htmlspecialchars($_REQUEST['id'])?>" />
-	<input type="hidden" name="reblog_key" value="<?=htmlspecialchars($post->reblog_key)?>" />
 </form>
 <?php } else { ?>
 		<form method="get">
