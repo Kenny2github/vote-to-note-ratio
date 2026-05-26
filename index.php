@@ -200,7 +200,7 @@ require_once __DIR__ . '/client.php';
 		label:nth-last-of-type(1) input[type=text] + a {
 			display: none;
 		}
-		a[href=#] {
+		a[href="#"] {
 			text-decoration: none;
 		}
 	</style>
