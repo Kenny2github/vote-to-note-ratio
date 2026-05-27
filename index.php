@@ -148,6 +148,8 @@ require_once __DIR__ . '/client.php';
 		else $tags['<1/' . $div . 'x'] = true;
 	}
 	$tags = array_merge($tags, [
+		'supermajority' => $supermajority,
+		'majority' => $majority,
 		'“other” supermajority' => $supermajority ? null : false,
 		'“other” majority' => $majority ? null : false,
 		'“other” plurality' => null,
