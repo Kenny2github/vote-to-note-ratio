@@ -120,14 +120,14 @@ require_once __DIR__ . '/client.php';
 			$poll->statement .= " = 0.00x as many votes as notes";
 		} else if ($poll->vote_count >= $post->note_count) {
 			$ratio = $poll->vote_count / $post->note_count * 100;
-			if (ceil($ratio) === $ratio) {
+			if (ceil($ratio) == $ratio) {
 				$poll->statement .= " = " . number_format($ratio / 100, 2) . 'x as many votes as notes';
 			} else {
 				$poll->statement .= ' ≈ ' . number_format(ceil($ratio) / 100, 2) . 'x as many votes as notes';
 			}
 		} else {
 			$ratio = $post->note_count / $poll->vote_count * 100;
-			if (ceil($ratio) === $ratio) {
+			if (ceil($ratio) == $ratio) {
 				$poll->statement .= " = " . number_format($ratio / 100, 2) . 'x as many NOTES as VOTES';
 			} else {
 				$poll->statement .= ' ≈ ' . number_format(ceil($ratio) / 100, 2) . 'x as many NOTES as VOTES';
